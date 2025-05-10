@@ -1,5 +1,7 @@
 # Normative Statistics
 
+🚧 WORK IN PROGRESS 🚧
+
 This is a python implementation of Crawford and Garthwaite's 2006 [paper](https://psycnet.apa.org/record/2006-06643-001) ([pdf](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=4991ca5691cf0b88c176d2fe3a0883da5fb625a0))
 
 > Crawford, John R., and Paul H. Garthwaite. *Comparing patients' predicted test scores from a regression equation with their obtained scores: a significance test and point estimate of abnormality with accompanying confidence limits.* Neuropsychology 20.3 (2006): 259.
