@@ -47,7 +47,7 @@ Where:
 
 ## Parameter Estimation
 
-Given a normative dataset $\{X, Y\}$, the model paramters ($B$) are esitmated from the independent ($Y$) and dependent ($X$) variables.
+Given a normative dataset, {$X, Y$}, the model paramters, $B$, are esitmated from the independent ($Y$) and dependent ($X$) variables.
 
 We begin by z-normalizing the dependent variables:
 
@@ -97,8 +97,8 @@ To evaluate a single subject, we save and use the following variables from the p
 
 And obvserve the following varables for a particular subject:
 
-- $x_{obs}$:        the subject's observed or measured independent variables (e.g. demographics)
-- $y_{obs}$:        the subject's observed or measured dependent variables
+- $x_{obs}$: a $(k \times 1)$ matrix of the subject's observed or measured independent variables (e.g. demographics)
+- $y_{obs}$: a $(m \times 1)$ the subject's observed or measured dependent variables
 
 Where:
 
@@ -136,7 +136,10 @@ $$
 Where:
 
 $$
-r_A = \sum r_{i,i} (z_{obs,i})^2 \\
+r_A = \sum r_{i,i} (z_{obs,i})^2
+$$
+
+$$
 r_B = \sum r_{i,j} z_{obs,i} z_{obs,j}
 $$
 
