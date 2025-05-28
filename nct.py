@@ -33,9 +33,13 @@ def nct_cdf_solve_for_nc(x, df, cdf, bounds=None, num_tries=1000):
         bounds = (-10,10)
 
     result = None
+    logger.debug(f'x: {x}')
+    logger.debug(f'df: {df}')
+    logger.debug(f'cdf: {cdf}')
+    
     for i in range(num_tries):
         try:
-            logger.debug(f'bounds are: {bounds}')
+            logger.debug(f'bounds: {bounds}')
             result = sp.optimize.brentq(objective, bounds[0], bounds[1], rtol=1e-10)    
         except ValueError as e:
             error_msg = str(e)

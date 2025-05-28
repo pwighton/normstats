@@ -296,11 +296,11 @@ def single_subject_eval(x_obs, y_obs, B, R, S_YdotX, n, X_mean, X_std, ci_alpha=
     # Compute the percentile estimate
     # This is "a point estimate of the percentage of the control population that
     # would exhibit a larger discrepancy"
-    p = t.cdf(x=t_diff, df=n-k)
+    p = t.cdf(x=t_diff, df=n-k-1)
     
     # Compute confidence intervals for p
-    tau = np.where(y_estimate > y_obs, 1, -1)
-    logger.debug(f'tau: {tau}')
+    #tau = np.where(y_estimate > y_obs, 1, -1)
+    #logger.debug(f'tau: {tau}')
     
     c = (y_obs - y_estimate) / S_YdotX
     logger.debug(f'c: {c}')
@@ -308,18 +308,19 @@ def single_subject_eval(x_obs, y_obs, B, R, S_YdotX, n, X_mean, X_std, ci_alpha=
     theta = 1/n + (r_A + 2 * r_B)/(n-1)
     logger.debug(f'theta: {theta}')
     
-    nct_stat = tau * c / np.sqrt(theta)
+    #nct_stat = tau * c / np.sqrt(theta)
+    nct_stat = c / np.sqrt(theta)
     
     delta_L = np.zeros(p.shape)
     delta_U = np.zeros(p.shape)
     p_ci_lower = np.zeros(p.shape)
     p_ci_upper = np.zeros(p.shape)
 
-    logger.debug(f'df: {n-k}')
+    logger.debug(f'df: {n-k-1}')
     for i in range(m):
         logger.debug(f'nct_stat:  {nct_stat[i][0]}')
-        delta_L[i][0] = nct_cdf_solve_for_nc(nct_stat[i][0], n-k, 1-ci_alpha/2, bounds=(-5,5))
-        delta_U[i][0] = nct_cdf_solve_for_nc(nct_stat[i][0], n-k, ci_alpha/2, bounds=(-5,5))
+        delta_L[i][0] = nct_cdf_solve_for_nc(nct_stat[i][0], n-k-1, 1-ci_alpha/2)
+        delta_U[i][0] = nct_cdf_solve_for_nc(nct_stat[i][0], n-k-1, ci_alpha/2)
         p_ci_lower[i][0] = norm.cdf(delta_L[i][0]*np.sqrt(theta))
         p_ci_upper[i][0] = norm.cdf(delta_U[i][0]*np.sqrt(theta))
 
