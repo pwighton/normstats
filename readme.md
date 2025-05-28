@@ -102,8 +102,6 @@ And obvserve the following varables for a particular subject:
 
 Where:
 
-- $x_{obs}$ is a $(k \times 1)$ vector of independent variables
-- $y_{obs}$ is a $(m \times 1)$ vector of dependent variables
 - $k$ is the number of independent variables
 - $m$ is the number of dependent variables the model predicts
 
@@ -157,14 +155,12 @@ $$
 And then compute a percentile estimate
 
 $$
-p = 100 \cdot T_{n-k}(t_{diff})
+p = T_{n-k-1}(t_{diff})
 $$
 
-Where $T_{n-k}(x)$ represents the cumulative t-distribution function with n − k degrees of freedom, evaluated at $x$
+Where $T_{n-k-1}(x)$ represents the cumulative t-distribution function with $n - k - 1$ degrees of freedom, evaluated at $x$
 
 ## Computing confidence intervals for a percentile estimate
-
-# https://gemini.google.com/app/21bcdfa00ee8541f
 
 We begin by defining the indicator function $\tau$:
 
@@ -193,21 +189,44 @@ Where $r_A$ and $r_B$ are defined above
 Then, define the cumulative non-central t-distribution function as:
 
 $$
-T_{n,\delta}(x)
+T_{n,nc}(x) = cdf
 $$
 
-Where $n$ represents the degrees of freedom, $\delta$ the non-centrality parameter, evaluated at $x$.
+Where $n$ represents the degrees of freedom, $nc$ the non-centrality parameter, evaluated at $x$.
 
-Next, define $\delta_{L}$ as the lower confidence interval ($\frac{1-\alpha}{2}$) and $\delta_{U}$ as the upper confidence interval ($\frac{\alpha}{2}$).  Then
-
-$$
-T_{n-k, \delta_L}( \frac{\tau c}{\sqrt{\theta}} ) = \frac{1-\alpha}{2}
-$$
-
-and 
+And define:
 
 $$
-T_{n-k, \delta_U}( \frac{\tau c}{\sqrt{\theta}} ) = \frac{\alpha}{2}
+T_{NC}(x, n, cdf) = nc
+$$
+
+as a function, that given $x$, $n$ and $cdf$, solves for the non-centrality parameter $nc$ such that $T_{n,nc}(x) = cdf$. 
+This funciton is implemented as `nct_cdf_solve_for_nc` in `nct.py`.
+
+Next, define $\delta_{L}$ as the lower confidence interval (1- $\frac{\alpha}{2}$) and $\delta_{U}$ as the upper confidence interval ($\frac{\alpha}{2}$) of $\frac{\tau c}{\sqrt{\theta}}$, then:
+
+$$
+\delta_{L} = T_{NC}(\frac{c}{\sqrt{\theta}}, n-k-1, 1-\frac{\alpha}{2})
+$$
+
+and
+
+$$
+\delta_{U} = T_{NC}(\frac{c}{\sqrt{\theta}}, n-k-1, \frac{\alpha}{2})
+$$
+
+Also, define $Z(x)$ as the standatd normal cumulative distribution function, evaluated at $x$. 
+
+Then, $(h1, h2)$ is a $(1-\alpha)$ confidence interval for the percentile estimate, where
+
+$$
+h1 = Z(\delta_{L} \sqrt(\theta))
+$$
+
+and
+
+$$
+h2 = Z(\delta_{U} \sqrt(\theta))
 $$
 
 ## Computing the measurement that represents a particular percentile
