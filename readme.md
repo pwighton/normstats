@@ -240,31 +240,31 @@ $$
 into:
 
 $$
-p = 100 \cdot T_{n-k}(t_{diff})
+p = 100 \cdot T_{n-k-1}(t_{diff})
 $$
 
 and rearraging, giving:
 
 $$
-\frac{p}{100} = T_{n-k} (\frac{y_{obs} - \hat{B} z_{obs1}}{S_{N+1}})
+\frac{p}{100} = T_{n-k-1} (\frac{y_{obs} - \hat{B} z_{obs1}}{S_{N+1}})
 $$
 
 taking the inverse of both sides gives:
 
 $$
-T_{n-k}^{-1} \left( \frac{p}{100} \right) = \frac{y_{obs} - \hat{B} z_{obs1}}{S_{N+1}}
+T_{n-k-1}^{-1} \left( \frac{p}{100} \right) = \frac{y_{obs} - \hat{B} z_{obs1}}{S_{N+1}}
 $$
 
-Where $T_{n-k}^{-1} ( x )$ represents the inverse cumulative t-distribution function with $n − k$ degrees of freedom, evaluated at $x$
+Where $T_{n-k-1}^{-1} ( x )$ represents the inverse cumulative t-distribution function with $n - k - 1$ degrees of freedom, evaluated at $x$
 
 Rearranging for $y_{obs}$:
 
 $$
-y_{obs} = \hat{B} z_{obs1} + S_{N+1} T_{n-k}^{-1} \left( \frac{p}{100} \right)
+y_{obs} = \hat{B} z_{obs1} + S_{N+1} T_{n-k-1}^{-1} \left( \frac{p}{100} \right)
 $$
 
 Now, to compute the measurement that corresponds to a given percentile estimate, $\alpha$, simply let $\alpha = \frac{p}{100}$
 
 $$
-y_{obs} = \hat{B} z_{obs1} + S_{N+1} T_{n-k}^{-1} \left( \alpha \right)
+y_{obs} = \hat{B} z_{obs1} + S_{N+1} T_{n-k-1}^{-1} \left( \alpha \right)
 $$
