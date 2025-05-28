@@ -98,7 +98,7 @@ To evaluate a single subject, we save and use the following variables from the p
 And obvserve the following varables for a particular subject:
 
 - $x_{obs}$: a $(k \times 1)$ matrix of the subject's observed or measured independent variables (e.g. demographics)
-- $y_{obs}$: a $(m \times 1)$ the subject's observed or measured dependent variables
+- $y_{obs}$: a $(m \times 1)$ matrix of the subject's observed or measured dependent variables
 
 Where:
 
@@ -128,7 +128,7 @@ Now, given a subjects observed dependent variables, $y_{obs}$ and predicted depe
 We begin by computing the the standard error of a predicted score for a new case, $S_{N+1}$
 
 $$
-S_{N+1} = S_{Y \cdot X} \sqrt{1 + \frac{1}{n} + \frac{1}{n-1} r_A \frac{2}{n-1} r_B} \\
+S_{N+1} = S_{Y \cdot X} \sqrt{1 + \frac{1}{n} + \frac{1}{n-1} r_A + \frac{2}{n-1} r_B} \\
 $$
 
 Where:
@@ -141,7 +141,7 @@ $$
 r_B = \sum r_{i,j} z_{obs,i} z_{obs,j}
 $$
 
-- $r_{ii}$ "identifies elements in the main diagonal" of the inverted correlation matrix for the k predictor variables
+- $r_{ii}$ "identifies elements in the main diagonal" of the inverted correlation matrix, $R$.
 - $r_{ij}$ "identifies off-diagonal elements of the inverted correlation matrix for the k predictor variables"
 - $z_{obs,i}$ is the $i^{th}$ element of the z-normalized observation vector, z_obs
 - $r_{i,j}$ is the element at the $i^{th}$ row and $j^{th}$ column of the inverted correlation matrix $R$
@@ -189,18 +189,18 @@ Where $r_A$ and $r_B$ are defined above
 Then, define the cumulative non-central t-distribution function as:
 
 $$
-T_{n,nc}(x) = cdf
+T_{df,nc}(x) = cdf
 $$
 
-Where $n$ represents the degrees of freedom, $nc$ the non-centrality parameter, evaluated at $x$.
+Where $df$ represents the degrees of freedom, $nc$ the non-centrality parameter, evaluated at $x$.
 
 And define:
 
 $$
-T_{NC}(x, n, cdf) = nc
+T_{NC}(x, df, cdf) = nc
 $$
 
-as a function, that given $x$, $n$ and $cdf$, solves for the non-centrality parameter $nc$ such that $T_{n,nc}(x) = cdf$. 
+as a function, that given $x$, $df$ and $cdf$, solves for the non-centrality parameter $nc$ such that $T_{df,nc}(x) = cdf$. 
 This funciton is implemented as `nct_cdf_solve_for_nc` in `nct.py`.
 
 Next, define $\delta_{L}$ as the lower confidence interval (1- $\frac{\alpha}{2}$) and $\delta_{U}$ as the upper confidence interval ($\frac{\alpha}{2}$) of $\frac{\tau c}{\sqrt{\theta}}$, then:
