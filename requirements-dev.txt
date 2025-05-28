@@ -3,3 +3,5 @@ scipy
 argparse
 pandas
 jupyter
+matplotlib
+seaborn

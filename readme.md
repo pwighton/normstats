@@ -130,7 +130,7 @@ Now, given a subjects observed dependent variables, $y_{obs}$ and predicted depe
 We begin by computing the the standard error of a predicted score for a new case, $S_{N+1}$
 
 $$
-S_{N+1} = S_{Y \cdot X} \sqrt{1 + \frac{1}{n} + \frac{1}{N-1} r_A \frac{2}{N-1} r_B} \\
+S_{N+1} = S_{Y \cdot X} \sqrt{1 + \frac{1}{n} + \frac{1}{n-1} r_A \frac{2}{n-1} r_B} \\
 $$
 
 Where:
@@ -164,7 +164,51 @@ Where $T_{n-k}(x)$ represents the cumulative t-distribution function with n − 
 
 ## Computing confidence intervals for a percentile estimate
 
-todo
+# https://gemini.google.com/app/21bcdfa00ee8541f
+
+We begin by defining the indicator function $\tau$:
+
+$$
+\tau = 
+\begin{cases}
+1 & \text{if } \hat{y} > y_{obs} \\
+-1 & \text{otherwise}
+\end{cases}
+$$
+
+and $c$ as the "index of effect size":
+
+$$
+c = \frac{y_{obs} - \hat{y}}{S_{Y \cdot X}}
+$$
+
+and $\theta$ as:
+
+$$
+\theta = \frac{1}{n} + \frac{r_A + 2 r_B}{n-1}
+$$
+
+Where $r_A$ and $r_B$ are defined above
+
+Then, define the cumulative non-central t-distribution function as:
+
+$$
+T_{n,\delta}(x)
+$$
+
+Where $n$ represents the degrees of freedom, $\delta$ the non-centrality parameter, evaluated at $x$.
+
+Next, define $\delta_{L}$ as the lower confidence interval ($\frac{1-\alpha}{2}$) and $\delta_{U}$ as the upper confidence interval ($\frac{\alpha}{2}$).  Then
+
+$$
+T_{n-k, \delta_L}( \frac{\tau c}{\sqrt{\theta}} ) = \frac{1-\alpha}{2}
+$$
+
+and 
+
+$$
+T_{n-k, \delta_U}( \frac{\tau c}{\sqrt{\theta}} ) = \frac{\alpha}{2}
+$$
 
 ## Computing the measurement that represents a particular percentile
 
