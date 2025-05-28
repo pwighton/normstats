@@ -3,7 +3,7 @@ import scipy as sp
 
 logger = logging.getLogger(__name__)
 
-def nct_cdf_solve_for_nc(x, df, cdf, bounds=None, num_tries=1000):
+def nct_cdf_solve_for_nc(x, df, cdf, bounds=None, num_tries=100):
     """
     Solve for the non-centrality parameter (nc) in a cumulative non-central T
     distribution given the point (x), degrees of freedom (df), and the CDF value
@@ -40,7 +40,8 @@ def nct_cdf_solve_for_nc(x, df, cdf, bounds=None, num_tries=1000):
     for i in range(num_tries):
         try:
             logger.debug(f'bounds: {bounds}')
-            result = sp.optimize.brentq(objective, bounds[0], bounds[1], rtol=1e-10)    
+            result = sp.optimize.brentq(objective, bounds[0], bounds[1], rtol=1e-10)
+            break
         except ValueError as e:
             error_msg = str(e)
             if "f(a) and f(b) must have different signs" in error_msg:
@@ -56,7 +57,6 @@ def nct_cdf_solve_for_nc(x, df, cdf, bounds=None, num_tries=1000):
                 continue
             else:
                 raise e
-        break
     if result == None:
       logger.error('Could not find a solution')
       raise ValueError('Could not find a solution')
