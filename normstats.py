@@ -74,7 +74,7 @@ def gen_synth_norm_data(B,n=100,S_YdotX=None,X_range=(0,10),X_are_ints=True):
         The actual model parameters
     n : int
         The number of synthetic subjects to generate
-    S_YdotX : m-length 1d array
+    S_YdotX : None | (m, 1) array
         The standard deviation of the residual
     X_range: 2-length tuple
         The range of values for the ind vars
@@ -109,13 +109,14 @@ def gen_synth_norm_data(B,n=100,S_YdotX=None,X_range=(0,10),X_are_ints=True):
     logger.debug(f'X.shape: {X.shape}')
 
     if S_YdotX is None:
-        S_YdotX = np.tile(1.0, (m))
-    assert(S_YdotX.shape == (m,)) 
+        S_YdotX = np.tile(1.0, (m,1))
+    assert(S_YdotX.shape == (m,1))
     logger.debug(f'S_YdotX.shape: {S_YdotX.shape}')
     
     Z_1, _, _, _ = z_normalize(X)
 
-    scale_array = np.tile(S_YdotX, (n,1)).T
+    scale_array = np.tile(S_YdotX, (1,n))
+    logger.debug(f'scale_array.shape: {scale_array.shape}')
     epsilon = np.random.normal(loc=0, scale=scale_array, size=(m,n))
     logger.debug(f'epislon.shape: {epsilon.shape}')
     
@@ -264,6 +265,7 @@ def single_subject_eval(x_obs, y_obs, B, R, S_YdotX, n, X_mean, X_std, ci_alpha=
     # z-normalize the subjects
     z_obs1, z_obs, _, _ = z_normalize(x_obs, X_mean, X_std)
     y_estimate = B @ z_obs1
+    logger.debug(f'y_estimate: {y_estimate}')
     
     r_A = np.sum(np.diag(R) * (z_obs.T ** 2))
     logger.debug(f'r_A: {r_A}')
@@ -289,6 +291,8 @@ def single_subject_eval(x_obs, y_obs, B, R, S_YdotX, n, X_mean, X_std, ci_alpha=
     S_Nplus1 = S_YdotX * np.sqrt(1 + 1/n + 1/(n-1)*r_A + 2/(n-1)*r_B)
     logger.debug(f'S_Nplus1: {S_Nplus1}')
     
+    logger.debug(f'y_obs: {y_obs}')
+    logger.debug(f'y_estiumate: {y_estimate}')
     # Compute the t-statistic
     t_diff = (y_obs - y_estimate)/S_Nplus1
     logger.debug(f't_diff: {t_diff}')
@@ -310,6 +314,7 @@ def single_subject_eval(x_obs, y_obs, B, R, S_YdotX, n, X_mean, X_std, ci_alpha=
     
     #nct_stat = tau * c / np.sqrt(theta)
     nct_stat = c / np.sqrt(theta)
+    logger.debug(f'nct_stat: {nct_stat}')
     
     delta_L = np.zeros(p.shape)
     delta_U = np.zeros(p.shape)

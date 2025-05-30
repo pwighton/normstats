@@ -8,14 +8,14 @@ This is a python implementation of Crawford and Garthwaite's 2006 [paper](https:
 
 A [generliazed linear model (GLM)](https://en.wikipedia.org/wiki/Generalized_linear_model) is first built from a normative dataset.  Then, for a particular individual: 
 
-- the dependent and independent variables of the GLM are observed
-- the parameters of the normative model and independent variables are used to predict the dependent variables
-- the observed dependent variables are compared to the predicted dependent variables
-- a percentile estimate is computed
+- The dependent and independent variables of the GLM are observed
+- The parameters of the normative model and independent variables are used to predict the dependent variables
+- The observed dependent variables are compared to the predicted dependent variables
+- A percentile estimate is computed
+- A confidence interval for the percentile estimate is computed
+- Optional: a value for the observed dependent variable what would represent an arbitrary percentile estimate, given the independent variables is computed
 
 # Installation
-
-
 
 ## Development 
 
